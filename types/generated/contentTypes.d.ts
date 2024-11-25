@@ -817,6 +817,13 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'api::notification.notification'
     >;
     avatar: Attribute.String;
+    balance: Attribute.Decimal;
+    spendingMoney: Attribute.Decimal;
+    transfer_histories: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::transfer-history.transfer-history'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -996,6 +1003,49 @@ export interface ApiSpecialtySpecialty extends Schema.CollectionType {
   };
 }
 
+export interface ApiTransferHistoryTransferHistory
+  extends Schema.CollectionType {
+  collectionName: 'transfer_histories';
+  info: {
+    singularName: 'transfer-history';
+    pluralName: 'transfer-histories';
+    displayName: 'TransferHistory';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    senderId: Attribute.Relation<
+      'api::transfer-history.transfer-history',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    receiverId: Attribute.Relation<
+      'api::transfer-history.transfer-history',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    amount: Attribute.Decimal;
+    description: Attribute.Text;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::transfer-history.transfer-history',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::transfer-history.transfer-history',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -1018,6 +1068,7 @@ declare module '@strapi/types' {
       'api::chemist.chemist': ApiChemistChemist;
       'api::notification.notification': ApiNotificationNotification;
       'api::specialty.specialty': ApiSpecialtySpecialty;
+      'api::transfer-history.transfer-history': ApiTransferHistoryTransferHistory;
     }
   }
 }

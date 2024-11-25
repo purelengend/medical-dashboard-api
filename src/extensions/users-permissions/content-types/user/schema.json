@@ -110,6 +110,18 @@
     },
     "avatar": {
       "type": "string"
+    },
+    "balance": {
+      "type": "decimal"
+    },
+    "spendingMoney": {
+      "type": "decimal"
+    },
+    "transfer_histories": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::transfer-history.transfer-history",
+      "mappedBy": "receiverId"
     }
   }
 }
