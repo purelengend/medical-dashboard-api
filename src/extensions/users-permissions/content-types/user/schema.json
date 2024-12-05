@@ -117,11 +117,17 @@
     "spendingMoney": {
       "type": "decimal"
     },
-    "transfer_histories": {
+    "incomingTransfer": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::transfer-history.transfer-history",
       "mappedBy": "receiverId"
+    },
+    "outcomingTransfer": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::transfer-history.transfer-history",
+      "mappedBy": "senderId"
     }
   }
 }

@@ -819,7 +819,12 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
     avatar: Attribute.String;
     balance: Attribute.Decimal;
     spendingMoney: Attribute.Decimal;
-    transfer_histories: Attribute.Relation<
+    incomingTransfer: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::transfer-history.transfer-history'
+    >;
+    outcomingTransfer: Attribute.Relation<
       'plugin::users-permissions.user',
       'oneToMany',
       'api::transfer-history.transfer-history'
@@ -1016,18 +1021,17 @@ export interface ApiTransferHistoryTransferHistory
     draftAndPublish: true;
   };
   attributes: {
-    senderId: Attribute.Relation<
-      'api::transfer-history.transfer-history',
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
+    amount: Attribute.Decimal;
     receiverId: Attribute.Relation<
       'api::transfer-history.transfer-history',
       'manyToOne',
       'plugin::users-permissions.user'
     >;
-    amount: Attribute.Decimal;
-    description: Attribute.Text;
+    senderId: Attribute.Relation<
+      'api::transfer-history.transfer-history',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
